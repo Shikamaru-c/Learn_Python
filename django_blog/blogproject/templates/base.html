@@ -1,0 +1,96 @@
+{% load staticfiles %}
+{% load blog_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CENCHAOCHAO's Blog</title>
+	<link rel="stylesheet" href="{% static 'blog/css/reset.css' %}">
+	<link rel="stylesheet" href="{% static 'blog/css/base.css' %}">
+	{% block css %}
+	{% endblock css %}
+	<link rel="stylesheet" href="{% static 'blog/css/github.css' %}">
+	<style>
+		span.highlighted {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<header>
+
+	</header>
+	<div class="wrapper">
+		<div class="content">
+		{% block content %}
+		{% endblock content %}
+		</div>
+		<aside>
+			<div class="category">
+				{% get_categories as category_list %}
+				<ul>
+					{% for category in category_list %}
+					<li>
+						<a href="{% url 'blog:category' category.pk %}">{{ category.name }}</a>
+						<span>({{ category.num_posts }})</span>
+					</li>
+					{% empty %}
+					暂无分类!
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="recentP">
+				{% get_recent_posts as recent_post_list %}
+				<ul>
+					{% for post in recent_post_list %}
+					<li>
+						<a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+					</li>
+					{% empty %}
+					暂无文章!
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="archives">
+				{% archives as date_list %}
+				<ul>
+					{% for date in date_list %}
+					<li>
+						<a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
+					</li>
+					{% empty %}
+					暂无归档!
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="tag">
+				{% get_tags as tag_list %}
+				<ul>
+					{% for tag in tag_list %}
+					<li>
+						<a href="{% url 'blog:tag' tag.pk %}">{{ tag.name }}</a>
+					</li>
+					{% empty %}
+					暂无标签!
+					{% endfor %}
+				</ul>
+			</div>
+			<!-- <div class="rss">
+				<a href="{% url 'blog:rss' %}">RSS 订阅</a>
+			</div>
+			<div>
+				<form role="search" id="searchform" action="{% url 'haystack_search' %}" method="get">
+					<input type="search" placeholder="搜索" name="q" required>
+					<button type="submit">搜索</button>
+				</form>
+			</div> -->
+			{% block aside %}
+			{% endblock aside %}
+		</aside>
+	</div>
+	<footer>
+		<p>Copyright &copy; 2017 CENCHAOCHAO.COM. All rights reserverd.</p>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.content {
+	width: 770px;
+	margin-bottom: 10px;
+	background-color: white;
+	box-sizing: border-box;
+	padding: 16px;
+	overflow: auto;
+	word-wrap: break-word;
+}
+.first {
+	width: 200px;
+	height: 200px;
+}
